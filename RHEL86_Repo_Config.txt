@@ -1,0 +1,26 @@
+create one folder in /var/rpms
+
+cp 8.4 iso inside to /root dir
+
+now mount -o loop {iso image} /mnt
+
+now go to mnt folder you can able to see AppStream and BaseOS
+
+now cp -r  appstream and base os to /var/rpms dir
+
+-----------------------------------------------------------------
+now go to /etc/yum.repo.d/
+create a filw with RHEL86.repo
+inside this came paste the text.
+[BaseOS]
+name=BaseOS Repository for RHE8.6
+baseurl=file:///var/rpms/BaseOS/
+enabled=1
+sslverify=false
+gpgcheck=0	
+[AppStream]
+name=AppStream Repository for RHE8.6
+baseurl=file:///var/rpms/AppStream/
+enabled=1
+sslverify=false
+gpgcheck=0
