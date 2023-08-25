@@ -1,3 +1,7 @@
+ Find all files that are larger than 5MB in the /etc directory and copy them to /tmp/5mfile
+ find /etc -size +5M -exec cd {} /tmp/5mfile/\;
+
+-----------------------------------------------------------------
 SCP SYNTAX : scp -r username@ip:path [windows path]
 
 scp -r root@192.168.0.100:/etc/ansible/Playbooks/shellscript.yaml D:\AnsiblePlaybooks
