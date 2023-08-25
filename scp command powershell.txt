@@ -517,7 +517,405 @@ Container file:
 FROM ubi9
 RUN dnf install -y httpd
 ENTRYPOINT ["httpd","-D","FOREGROUND"]
-------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+NOTE: WHEN WE ARE RUNNING A CONTAINER LOGIN A NONROOT USER ITSELF DONT USE SU CHIRU THIS IS THE PROBLEM IN CONTAINERS
+
+ 
+
+ 
+
+which podman
+
+ 
+
+dnf install container-tools
+
+ 
+
+ 
+
+podman pull httpd  ==> use docker.io
+
+ 
+
+podman ps ==> to check container running
+podman search httpd ==>search for container
+
+ 
+
+podman ps  -a ==> it you stop any container and it will store in ram using -a we can see all the stopped containers
+
+ 
+
+podman rmi [image id ]  ==> to remove images
+
+ 
+
+podman images ==> show container where it got downloaded
+
+ 
+
+podman run -d httpd ==> it will start container  -d is run in backend dont show login terminal
+
+ 
+
+now if we run with ip in google i will get can't able to reach the site beacuse we need to do some port mapping to access the httpd
+
+ 
+
+podman ps
+podman stop [name of the container]
+podman ps  -a
+
+ 
+
+podman rm [name of the container]
+
+ 
+
+podman run -d --name web1  -p 8080:80 httpd  =>8080 server port will redirect to the port 80 of the httpd container
+
+ 
+
+if its not working add 8080 in firewall
+
+ 
+
+podman exec -it web1 /bin/bash ==> we enter into shell
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+day-2
+
+ 
+
+now we have website and we need to run in container
+
+ 
+
+i have website.zip
+
+ 
+
+mkdir /data
+
+ 
+
+cp website.zip  /data
+
+ 
+
+cd  /data
+ls
+we can see zip file of website
+
+ 
+
+change the owner ship and permissions:
+
+ 
+
+chmod 776 /data
+
+ 
+
+chown -R student:student /data   here -R  is recorversve means in /data if we create it will have ownership of student
+
+ 
+
+uzip website.zip
+
+ 
+
+rm -rf website.zip
+
+ 
+
+cd startbotsstrps
+
+ 
+
+here we will see all the website files .html,.css...
+
+ 
+
+now move all the files to /data
+
+ 
+
+mv *  /data
+
+ 
+
+rm -rf  startbotsstrps
+
+ 
+
+ 
+
+podman run -d --name web1 -p 8080:80  -v /usr/local/apache2/htdocs :Z   [here z is used for selinux how to understand? now follow below steps before running this command run]
+
+ 
+
+ls -ldZ /data
+
+ 
+
+as per selinux we have dafaults_t    which means only user can enter but not application so we will use Z in last now run the command
+
+ 
+
+podman run -d --name web1 -p 8080:80  -v /usr/local/apache2/htdocs :Z  httpd
+
+ 
+
+podman ps
+
+ 
+
+ls -ldZ /data
+now we can see container_file_t
+
+ 
+
+open chrom and use ip:8080 it will run we can see our website.
+-----------------------------------------------------------------------------------------------------------------------
+RUNNING CONTAINER AS A SERVICE:
+
+ 
+
+to run the container as a service we need to go to home directory and we need to run the command as below
+
+ 
+
+[student@june~] mkdir -p  .config/systemd/user
+ls -ld .config
+
+ 
+
+cd .config/
+
+ 
+
+ls
+
+ 
+
+cd  systemd/
+
+ 
+
+ls
+
+ 
+
+cd user/
+ls
+
+ 
+
+her in this path we need to run the below command
+
+ 
+
+podman generate systemd --name web1 --files   ==> now her in user dir a service file has ben genereated
+ls
+
+ 
+
+now to user systemctl enable or disable or start or stop we will use a feature  which is called linger
+
+ 
+
+sudo loginctl enabled-linger student
+
+ 
+
+systemctl --user daemon-reload  ==> it will reload our files
+
+ 
+
+ 
+
+systemctl --user status container-web1.service
+
+ 
+
+we can see it is not loaded  lets do we will stop container and we will start as a service
+
+ 
+
+podman ps
+
+ 
+
+podman stop web1
+
+ 
+
+systemctl --user start container-web1.service
+
+ 
+
+systemctl --user status container-web1.service
+
+ 
+
+systemctl --user enable  container-web1.service
+
+ 
+
+ 
+
+now no need to run podman start we can use systemctl
+
+ 
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ 
+
+BUILDING A CONTAINER FILE:
+
+ 
+
+ 
+
+LETS CREAT HTTPD CONTAINER FILE
+vi Dockerfile
+FROM ubi9
+RUN dnf install -y httpd
+ENTERYPOINT ["httpd"," -D", "FOREGROUND"]
+
+ 
+
+podman built -t httpd:amit /home/student/  or buildah build -f Dockerfile -t watch
+
+ 
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ 
+
+que:
+
+ 
+
+make in root
+wget https:// container file
+
+ 
+
+buildah build -f Dockerfile -t watch
+
+ 
+
+cd /opt ; mkdir in out
+
+ 
+
+ 
+
+chmod 777 in; chmod 777 out
+
+ 
+
+chown neith:neith in,chown neith:neith out
+sudo loginctl enabled-linger neith
+
+ 
+
+now login as neit user
+
+ 
+
+podman run -d --name ascii2pdf -v /opt/in:/opt/incoming:Z -v /opt/out:/opt/outgoing:Z /localhost/watch
+
+ 
+
+podman ps
+
+ 
+
+ 
+
+now we need to run as service
+
+ 
+
+mkdir -p  .config/systemd/user; cd ~/.config.systemd/user
+
+ 
+
+podman generate systemd --name ascii2pdf  --files
+systemctl --user daemon-reload
+
+ 
+
+systemctl --user status container-ascii2pdf.service
+systemctl --user enable  container-ascii2pdf.service --now
+
+ 
+
+ 
+
+ 
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ 
+
+test:
+
+ 
+
+root@rhel2 server
+
+ 
+
+wget container file
+
+ 
+
+buildah build -f Dockerfile -t watch
+
+ 
+
+sudo loginctl enabled-linger neit
+
+ 
+
+ 
+
+cd /opt; mkdir in out
+
+ 
+
+chmod 777 in ; chmod 777 out
+
+ 
+
+chown neith:neith in ; chown neith:neith out
+
+ 
+
+ 
+
+now login as neith user
+
+ 
+
+ 
+
+podman run  -d --name ascii2pdf -v /opt/in:/opt/incoming:Z  -v /opt/out:/opt/outgoing:Z  /localhost/watch
+
+ 
+
+ 
+
+mkdir -p .config/systemd/user;cd ~/.config/systemd/user
+
+ 
+
+podman generate --name  ascii2pdf --files
 
  
  
