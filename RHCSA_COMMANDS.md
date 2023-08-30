@@ -34,11 +34,11 @@ scp -rp text.txt root@@vmc1015:/tmp
 
 ```SHELL
 vi etc/passwd       # Stores user account information, including usernames and user IDs
-vi /etc/group       # Contains group account information, such as group names and group                       IDs
-vi /etc/shadow      # Stores encrypted password information and account expiry details                        for user accounts.
+vi /etc/group       # Contains group account information, such as group names and group IDs
+vi /etc/shadow      # Stores encrypted password information and account expiry details for user accounts.
 vi /etc/login.defs  # Defines default login configuration settings for user accounts.
-vi /etc/gshadow     # Securely stores group password information (rarely used in modern                       systems).
-vi /etc/login.defs  # 1. Repeated entry; defines default login configuration settings                         for user accounts.
+vi /etc/gshadow     # Securely stores group password information (rarely used in modern systems).
+vi /etc/login.defs  # 1. Repeated entry; defines default login configuration settings for user accounts.
 ```
 
 # Creating users group passwords using Commands:
@@ -57,9 +57,9 @@ groupadd devgroup #This will create a new group in your system
 ## User Modification:
 
 ```SHELL
-usermod -G devgroup cena  # -G is secondary group now cena is part of secondary group                               devgroup.
+usermod -G devgroup cena  # -G is secondary group now cena is part of secondary group devgroup.
 
-usermod -s /sbin/nologin cena #Here cena don't hvae access to the shell so he can't                                    login to his account.
+usermod -s /sbin/nologin cena #Here cena don't hvae access to the shell so he can't login to his account.
 
 sudo usermod -c "This is test user" test_user # To add comment to user
 
@@ -169,9 +169,9 @@ sudo tar -xjvf archive.tar.bz2
 
 ```SHELL
 #In Ser1:
- sudo ssh-keygen            # Step:1 Create a Cert file deafault give enter enter cert                                will be created
+ sudo ssh-keygen     # Step:1 Create a Cert file deafault give enter enter cert will be created
 
-sudo ssh-copy-id root@Ser2  # Step:2 Here we are transferring the cert file to Ser2 so                                that from next time it will not ask's password 
+sudo ssh-copy-id root@Ser2  # Step:2 Here we are transferring the cert file to Ser2 so that from next time it will not ask's password 
 
 ```
 
