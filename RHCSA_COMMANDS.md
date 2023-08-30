@@ -1,3 +1,8 @@
+
+
+
+# RHCSA_Full_Content (RHEL9)
+
 **Find all files that are larger than 5MB in the /etc directory and copy them to /tmp/5mfile
 
 ```BASH
@@ -177,6 +182,7 @@ sudo ssh-keygen -R servername
 ```
 
 ---- 
+
 
 PARTITIONS COMMANDS:
 
