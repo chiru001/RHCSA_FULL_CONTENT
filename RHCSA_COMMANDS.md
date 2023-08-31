@@ -85,7 +85,8 @@ sudo userdel username    # Remove the User
 sudo userdel -r username # Remove the User & its folder which will present in /usr
 sudo groupdel groupname  # Remove the Group
 sudo passwd -d username  # Remove the Password
-
+passwd -uf root #root unlock
+passwd -l root # for lock root
 ```
 
 ---
@@ -182,9 +183,152 @@ sudo ssh-keygen -R servername
 ```
 
 ---- 
+# Port scanning:
+
+**Here we can use 2 options one is using netcat command and the other is Nmap command.
+
+## NetCat:
+
+```SHELL
+nc -zv 192.168.1.200 22
+
+```
+
+## Nmap:
+
+```SHELL
+sudo nmap vmc6001 -p 10443
+```
+
+# To Check all open ports in your system:
+
+### Netstat:
+
+```SHELL
+sudo netstat -tuln
+```
+
+### Nmap:
+
+```SHELL
+nmap -p- 192.168.1.100
+```
+
+---
+# **View Running Processes (List):**
+
+```SHELL
+sudo ps aux
+```
+
+### **Find a Specific Process by Name:**
+
+```shell
+sudo pgrep nginx
+```
+
+### **Kill a Process by PID:**
+
+```shell
+sudo kill 1234
+sudo kill -9 1234 # use `kill -9` to forcefully kill a process if it doesn't respond to a regular
+sudo kill myprocess # Kill Processes by Name
+```
+
+---
+
+# Firewall Configurations:
+
+```SHELL
+firewall-cmd --list-all # to see list of all ports & services 
+firewall-cmd --add-port=400/tcp --permanent # To add port in firewall
+firewall-cmd --reload # reload
+firewall-cmd --get-services # To check all services
+firewall-cmd --add-service=http --permanent # To add service in firewall
+firewall-cmd --remove-port=400/tcp --permanent # To remove a port
+firewall-cmd --remove-service=http --permanent # To remove a service
+```
+
+**Note: If you are adding anything or removing anything try to reload it or else added configuration will not be applied.**
+
+----
+
+# ACCESS CONTROL LISTS (ACL)
+
+**Example:**
+
+```SHELL
+ls
+rw-r--r-- student student demo 
+```
+
+**I have demo file and i need chiru user to write on demo assuming chiru is not part of student group. here chiru is not owner and also (group chiru) is other and for others we have only read permission.**
+**one way is we can change permission for other like below:**
+
+```SHELL
+rw-r--rw- student student demo
+```
+
+**But here the problem is chiru can write but also the other users in server also can edit the file**
+**So now how we can do it ? we can do it using ACL. We have two command getfacl, setfaclACL Permissions**
+
+```shell
+sudo getacl demo # get acl info
+sudo setfacl demo  # apply new acl
+```
+
+### How we can get info whether ACL is applied on the file or not?
+
+```SHELL
+ll
+-rw-r--r--+ 1 root root 10 mar 5 10:13 data1  
+```
+
+**Here from the above command we can able to see "+" from here we can confirm that ACL is applied on that data1 file. if you see "+" blindly we can see ACL is applied on that file.
+
+## How to apply ACL on a file for user:
+
+```shell
+sudo setfacl -m "u:chiru:rw-" data1   # here -m is modify
+```
+
+## How to apply ACL on a file for group:
+
+```SHELL
+setfacl -m "g:manager:rw-" data 
+```
+
+## How to apply ACL on a file for others:
+
+```SHELL
+setfacl -m "o:rw-" data 
+```
+
+## Removing ACL:
+
+```SHELL
+sudo setfacl -b data1  # b =back to normal 
+
+# To remove a particular ACL then use below command -x
+setfacl -x "g:manager" data1
+setfacl -x "u:chiru" data1
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 PARTITIONS COMMANDS:
+
 
 #lsblk 
 #fdisk -l
@@ -291,9 +435,7 @@ showmount -e ip of the server
 
 mount 192.168.10.100:/data /mnt
 
-passwd -uf root (root unlock)
- 
-passwd -l root (for lock)
+
 --------------------------------------------------------------------------
  AUTONFS:
  dnf install nfs-utils
@@ -344,42 +486,6 @@ open the same file again
 vi /etc/auto.dir
 * -rw,sync,fstype=nfs4 serverip:/data/&
 -------------------------------------------------------------------------
-ACL Permissions:
-eg: i have demo file
-i need to chiru user need to write on demo assming chiru is not part of student group. here chiru is not owner and also group chiru is other and for other we have only read permission.
-rw-r--r-- student student demo 
-one way is we can change permission for other like below
-rw-r--rw- student student demo
-but problem is chiru can wirte but also the other user also can edit the file
-	
-so now how we can do it ? we can do it using ACL.
-we have two command getfacl, setfacl
-getacl - get acl info
-setfacl - apply new acl
- 
-ls -l dtata 1
--rw-r--r--. 1 root root 10 mar 5 10:13 data1 
-here . means noacl  we can also check using getfacl
-getfacl data1
-now we need to give acces for other user we can use setacl
-now for data1 we dont have permission for chiru take another shell login a chiru user and try t do vi data1 we will readonly in below
-
-Now to apply ACL 
-setfacl -m "u:chiru:rw-" data1     m = modify u is user
-ls -l 
--rw-r--r--+ 1 root root 10 mar 5 10:13 data1  we can + icon
-getfacl data1
-
-now try to edit the file using chiru user we can edit now.
-
-we can also do the same thing for a group also 
-setfacl -m "g:manager:rw-" data1
-
-if we need to remove all acl at once then
-setfacl -b data1   b =back to normal 
-no need to remove all but need to remove any one of acl then use -x
-setfacl -x "g:manager" data1
-setfacl -x "u:chiru" data1
 --------------------------------------------------------------------------
 SPECIAL PERMISSIONS:
 
