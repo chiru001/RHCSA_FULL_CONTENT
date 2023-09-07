@@ -3,29 +3,6 @@
 
 # RHCSA_Full_Content (RHEL9)
 
-**Find all files that are larger than 5MB in the /etc directory and copy them to /tmp/5mfile**
-
-```BASH
- find /etc -size +5M -exec cd {} /tmp/5mfile/\;
-```
-
-
------------------------------------------------------------------
-# SCP SYNTAX : 
-
-**scp -r username@ip:path [windows path]**
-
-```SHELL
-scp -r root@192.168.0.100:/etc/ansible/Playbooks/shellscript.yaml D:\AnsiblePlaybooks
-```
-
-
-**Linux:**
-```SHELL
-scp -rp text.txt root@@vmc1015:/tmp
-```
-
-------------------------------------------------------------------------------
 # User & Group Creation:
 
 **We can create users & group with 2 methods. one is there are some files where we can go and edit it or using commands we can create it**
@@ -183,6 +160,72 @@ sudo ssh-keygen -R servername
 ```
 
 ---- 
+# Grep:
+
+>**grep is a command-line tool used in Unix and Unix-like operating systems. Its name stands for "global regular expression print."
+
+**In simple language:**
+
+<mark>**grep is like a search tool for text.**</mark>
+
+
+```SHELL
+grep -i "hello" file.txt  # Ignore case distinctions
+
+grep -v "error" file.txt  # Show lines in file.txt that don't contain "error".
+
+grep -r "config" .  # Find "config" in all files within the current directory and its subdirectories.
+
+grep -l "todo" *  # Show names of files in the current directory containing the word "todo".
+
+grep -n "variable" script.sh # Find "variable" in `script.sh` and show line numbers.
+
+grep -w "log" file.txt  # Find the whole word "log" in `file.txt` (won't match "blog" or "logger").
+
+grep -A 2 "section" file.txt  # Show 2 lines after each match of "section" in `file.txt`.
+
+grep -B 3 "section" file.txt # Show 3 lines before each match of "section" in `file.txt`.
+
+grep -C 1 "section" file.txt # Show 1 line before and after each match of "section" in `file.txt`.
+
+grep --color "error" log.txt # Find "error" in `log.txt` and highlight matches.
+```
+
+---
+
+# RPM(**Red Hat Package Manager**.):
+
+**RPM is a package manager used by some Linux distributions, like Red Hat and CentOS, to install, uninstall, and manage software packages. Think of it like an "installer" for software on these Linux systems.**
+
+**RPM Parameters:**
+
+```SHELL
+-i = install
+-u = update
+-e = erase
+-v = verbose
+-h = Display progress in ###
+```
+
+```SHELL
+rpm -ivh tcpdump  # To install a package.but firstly u need to download the rpmfile.
+```
+
+```SHELL
+rpm -e tcpdump  # To remove the package
+```
+
+```SHELL
+rpm -u tcpdump # To upgrade the pacage
+```
+
+```SHELL
+rpm -qa | grep tcpdum #You can list all installed packages
+```
+
+
+
+---
 # Port scanning:
 
 **Here we can use 2 options one is using netcat command and the other is Nmap command.
@@ -234,6 +277,31 @@ sudo kill 1234
 sudo kill -9 1234 # use `kill -9` to forcefully kill a process if it doesn't respond to a regular
 sudo kill myprocess # Kill Processes by Name
 ```
+
+
+**Find all files that are larger than 5MB in the /etc directory and copy them to /tmp/5mfile**
+
+```BASH
+ find /etc -size +5M -exec cd {} /tmp/5mfile/\;
+```
+
+
+-----------------------------------------------------------------
+# SCP SYNTAX : 
+
+**scp -r username@ip:path [windows path]**
+
+```SHELL
+scp -r root@192.168.0.100:/etc/ansible/Playbooks/shellscript.yaml D:\AnsiblePlaybooks
+```
+
+
+**Linux:**
+```SHELL
+scp -rp text.txt root@@vmc1015:/tmp
+```
+
+------------------------------------------------------------------------------
 
 ---
 
@@ -313,18 +381,6 @@ sudo setfacl -b data1  # b =back to normal
 setfacl -x "g:manager" data1
 setfacl -x "u:chiru" data1
 ```
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 PARTITIONS COMMANDS:

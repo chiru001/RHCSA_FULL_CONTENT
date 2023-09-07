@@ -18,8 +18,21 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "9d0176857a5bb268",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "RHCSA_COMMANDS.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -146,8 +159,9 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "a13aae07e811276e",
+  "active": "9d0176857a5bb268",
   "lastOpenFiles": [
+    "snmp.sh",
     "README.md",
     "RHCSA_COMMANDS.md"
   ]
