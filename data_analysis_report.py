@@ -52,7 +52,10 @@ def data_analysis_report(file_path):
     plt.close()
 
     # Department-wise Analysis
-    department_stats = df.groupby('Department').mean()
+    # Select numeric columns for groupby mean calculation
+    numeric_df = df.select_dtypes(include=[np.number])
+    numeric_df['Department'] = df['Department']
+    department_stats = numeric_df.groupby('Department').mean()
     print("Department-wise Statistics:\n", department_stats)
 
     # Boxplot of Salary by Department
