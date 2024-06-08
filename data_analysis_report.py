@@ -18,7 +18,7 @@ def data_analysis_report(file_path):
     plt.title('Age Distribution')
     plt.xlabel('Age')
     plt.ylabel('Frequency')
-    plt.savefig('age_distribution.png')
+    plt.savefig('/var/lib/jenkins/workspace/DS-test1/age_distribution.png')
     plt.close()
 
     # Salary distribution
@@ -27,7 +27,7 @@ def data_analysis_report(file_path):
     plt.title('Salary Distribution')
     plt.xlabel('Salary')
     plt.ylabel('Frequency')
-    plt.savefig('salary_distribution.png')
+    plt.savefig('/var/lib/jenkins/workspace/DS-test1/salary_distribution.png')
     plt.close()
 
     # Department count
@@ -36,17 +36,19 @@ def data_analysis_report(file_path):
     plt.title('Department Count')
     plt.xlabel('Department')
     plt.ylabel('Count')
-    plt.savefig('department_count.png')
+    plt.savefig('/var/lib/jenkins/workspace/DS-test1/department_count.png')
     plt.close()
 
     # Correlation Analysis
-    correlation_matrix = df.corr()
+    # Select only numeric columns for correlation matrix
+    numeric_cols = df.select_dtypes(include=[np.number]).columns.tolist()
+    correlation_matrix = df[numeric_cols].corr()
     print("Correlation Matrix:\n", correlation_matrix)
 
     plt.figure(figsize=(10, 8))
     sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm')
     plt.title('Correlation Matrix')
-    plt.savefig('correlation_matrix.png')
+    plt.savefig('/var/lib/jenkins/workspace/DS-test1/correlation_matrix.png')
     plt.close()
 
     # Department-wise Analysis
@@ -59,7 +61,7 @@ def data_analysis_report(file_path):
     plt.title('Salary Distribution by Department')
     plt.xlabel('Department')
     plt.ylabel('Salary')
-    plt.savefig('salary_by_department.png')
+    plt.savefig('/var/lib/jenkins/workspace/DS-test1/salary_by_department.png')
     plt.close()
 
     # Count of employees by Department
@@ -68,7 +70,7 @@ def data_analysis_report(file_path):
     plt.title('Number of Employees by Department')
     plt.xlabel('Department')
     plt.ylabel('Number of Employees')
-    plt.savefig('employees_by_department.png')
+    plt.savefig('/var/lib/jenkins/workspace/DS-test1/employees_by_department.png')
     plt.close()
 
     # Trend Analysis
@@ -80,7 +82,7 @@ def data_analysis_report(file_path):
     plt.title('Trend of New Joiners by Year')
     plt.xlabel('Year')
     plt.ylabel('Number of New Joiners')
-    plt.savefig('trend_new_joiners_by_year.png')
+    plt.savefig('/var/lib/jenkins/workspace/DS-test1/trend_new_joiners_by_year.png')
     plt.close()
 
     plt.figure(figsize=(10, 6))
@@ -88,10 +90,9 @@ def data_analysis_report(file_path):
     plt.title('Average Salary Over the Years')
     plt.xlabel('Year')
     plt.ylabel('Average Salary')
-    plt.savefig('average_salary_over_years.png')
+    plt.savefig('/var/lib/jenkins/workspace/DS-test1/average_salary_over_years.png')
     plt.close()
 
 if __name__ == "__main__":
-    file_path = 'dummy_data_science_practice.xlsx'  # Replace
+    file_path = 'dummy_data_science_practice.xlsx'  # Path to your Excel file
     data_analysis_report(file_path)
-
